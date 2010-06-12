@@ -85,7 +85,7 @@ static const struct {
 };
 
 #define DMI_COMMAND_LEN_MAX 260
-static const char *dmidecode_command = "dmidecode";
+static const char *dmidecode_command = DMIDECODE_PATH;
 
 static char *dmistrings[ARRAY_SIZE(dmidecode_names)];
 
