@@ -1125,7 +1125,7 @@ int read_flash_to_file(struct flashctx *flash, const char *filename)
 	unsigned char *buf = calloc(size, sizeof(char));
 	int ret = 0;
 
-	msg_cinfo("Reading flash... ");
+	msg_cinfo("Reading flash into %s ... ", filename);
 	if (!buf) {
 		msg_gerr("Memory allocation failed!\n");
 		msg_cinfo("FAILED.\n");
