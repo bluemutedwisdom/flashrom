@@ -24,13 +24,15 @@
 #ifndef __HWACCESS_H__
 #define __HWACCESS_H__ 1
 
+#include "config.h"
+
 #if defined (__i386__) || defined (__x86_64__)
 #if defined(__GLIBC__)
 #include <sys/io.h>
 #endif
 #endif
 
-#if NEED_PCI == 1
+#if HAVE_LIBPCI == 1
 /*
  * libpci headers use the variable name "index" which triggers shadowing
  * warnings on systems which have the index() function in a default #include
@@ -160,7 +162,7 @@ cpu_to_be(64)
 #define le_to_cpu32 cpu_to_le32
 #define le_to_cpu64 cpu_to_le64
 
-#if NEED_PCI == 1
+#if HAVE_LIBPCI == 1
 #if defined (__i386__) || defined (__x86_64__)
 
 #define __FLASHROM_HAVE_OUTB__ 1

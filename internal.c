@@ -22,8 +22,9 @@
 #include <stdlib.h>
 #include "flash.h"
 #include "programmer.h"
+#include "config.h"
 
-#if NEED_PCI == 1
+#if HAVE_LIBPCI == 1
 struct pci_dev *pci_dev_find_filter(struct pci_filter filter)
 {
 	struct pci_dev *temp;
