@@ -30,6 +30,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <getopt.h>
+
+#include "config.h"
+
 #if HAVE_UTSNAME == 1
 #include <sys/utsname.h>
 #endif
@@ -37,7 +40,6 @@
 #include "flashchips.h"
 #include "programmer.h"
 
-const char * const flashrom_version = FLASHROM_VERSION;
 char *chip_to_probe = NULL;
 int verbose = 0;
 
@@ -1420,7 +1422,7 @@ void print_sysinfo(void)
 
 void print_version(void)
 {
-	msg_ginfo("flashrom v%s", flashrom_version);
+	msg_ginfo("flashrom v%s", PACKAGE_VERSION);
 	print_sysinfo();
 }
 

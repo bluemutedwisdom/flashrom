@@ -187,7 +187,6 @@ enum write_granularity {
 };
 extern enum chipbustype buses_supported;
 extern int verbose;
-extern const char * const flashrom_version;
 extern char *chip_to_probe;
 void map_flash_registers(struct flashchip *flash);
 int read_memmapped(struct flashchip *flash, uint8_t *buf, int start, int len);
