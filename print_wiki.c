@@ -26,6 +26,7 @@
 #include "flash.h"
 #include "flashchips.h"
 #include "programmer.h"
+#include "config.h"
 
 static const char wiki_header[] = "= Supported devices =\n\n\
 <div style=\"margin-top:0.5em; padding:0.5em 0.5em 0.5em 0.5em; \
@@ -270,7 +271,7 @@ void print_supported_wiki(void)
 {
 	time_t t = time(NULL);
 
-	printf(wiki_header, ctime(&t), flashrom_version);
+	printf(wiki_header, ctime(&t), PACKAGE_VERSION);
 	print_supported_chips_wiki(2);
 #if CONFIG_INTERNAL == 1
 	print_supported_chipsets_wiki(3);
