@@ -24,6 +24,8 @@
 #ifndef __PROGRAMMER_H__
 #define __PROGRAMMER_H__ 1
 
+#include "config.h"
+
 enum programmer {
 #if CONFIG_INTERNAL == 1
 	PROGRAMMER_INTERNAL,
@@ -212,7 +214,7 @@ void myusec_delay(int usecs);
 void myusec_calibrate_delay(void);
 void internal_delay(int usecs);
 
-#if NEED_PCI == 1
+#if HAVE_LIBPCI == 1
 /* pcidev.c */
 extern uint32_t io_base_addr;
 extern struct pci_access *pacc;
@@ -277,7 +279,7 @@ void dmi_init(void);
 int dmi_match(const char *pattern);
 
 /* internal.c */
-#if NEED_PCI == 1
+#if HAVE_LIBPCI == 1
 struct superio {
 	uint16_t vendor;
 	uint16_t port;

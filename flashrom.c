@@ -1654,7 +1654,7 @@ void print_sysinfo(void)
 	msg_ginfo(" on unknown machine");
 #endif
 	msg_ginfo(", built with");
-#if NEED_PCI == 1
+#if HAVE_LIBPCI == 1
 #ifdef PCILIB_VERSION
 	msg_ginfo(" libpci %s,", PCILIB_VERSION);
 #else
