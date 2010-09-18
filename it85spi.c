@@ -24,8 +24,6 @@
  * Contains the ITE IT85* SPI specific routines
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -354,5 +352,3 @@ static int it85xx_spi_send_command(unsigned int writecnt, unsigned int readcnt,
 
 	return 0;
 }
-
-#endif

@@ -19,8 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include "ich_descriptors.h"
 #include "flash.h" /* for msg_* */
 #include "programmer.h"
@@ -313,4 +311,3 @@ int read_ich_descriptors_via_fdo(void *spibar, struct ich_descriptors *desc)
 	msg_pdbg2(" done.\n");
 	return ICH_RET_OK;
 }
-#endif /* defined(__i386__) || defined(__x86_64__) */
