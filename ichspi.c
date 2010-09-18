@@ -23,8 +23,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include <string.h>
 #include "flash.h"
 #include "chipdrivers.h"
@@ -1397,5 +1395,3 @@ int via_init_spi(struct pci_dev *dev)
 
 	return 0;
 }
-
-#endif
