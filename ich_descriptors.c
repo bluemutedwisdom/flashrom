@@ -19,8 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include "ich_descriptors.h"
 
 #ifdef ICH_DESCRIPTORS_FROM_DUMP
@@ -821,4 +819,3 @@ int read_ich_descriptors_via_fdo(void *spibar, struct ich_descriptors *desc)
 	return ICH_RET_OK;
 }
 #endif /* ICH_DESCRIPTORS_FROM_DUMP */
-#endif /* defined(__i386__) || defined(__x86_64__) */
