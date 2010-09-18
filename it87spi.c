@@ -23,8 +23,6 @@
  * Contains the ITE IT87* SPI specific routines
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include <string.h>
 #include <stdlib.h>
 #include "flash.h"
@@ -371,5 +369,3 @@ int it8716f_spi_chip_write_256(struct flashchip *flash, uint8_t *buf, int start,
 
 	return 0;
 }
-
-#endif

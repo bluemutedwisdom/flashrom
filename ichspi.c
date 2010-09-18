@@ -34,8 +34,6 @@
  *
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include <string.h>
 #include "flash.h"
 #include "chipdrivers.h"
@@ -1131,5 +1129,3 @@ int via_init_spi(struct pci_dev *dev)
 
 	return 0;
 }
-
-#endif

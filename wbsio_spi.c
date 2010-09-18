@@ -18,8 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include "flash.h"
 #include "chipdrivers.h"
 #include "programmer.h"
@@ -185,5 +183,3 @@ int wbsio_spi_read(struct flashchip *flash, uint8_t *buf, int start, int len)
 {
 	return read_memmapped(flash, buf, start, len);
 }
-
-#endif

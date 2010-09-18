@@ -21,8 +21,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include "flash.h"
 #include "chipdrivers.h"
 #include "programmer.h"
@@ -319,5 +317,3 @@ int sb600_probe_spi(struct pci_dev *dev)
 	spi_controller = SPI_CONTROLLER_SB600;
 	return 0;
 }
-
-#endif
