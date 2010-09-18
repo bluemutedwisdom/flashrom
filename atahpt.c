@@ -18,8 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include <stdlib.h>
 #include <string.h>
 #include "flash.h"
@@ -97,7 +95,3 @@ static uint8_t atahpt_chip_readb(const struct flashctx *flash,
 	OUTL((uint32_t)addr, io_base_addr + BIOS_ROM_ADDR);
 	return INB(io_base_addr + BIOS_ROM_DATA);
 }
-
-#else
-#error PCI port I/O access is not supported on this architecture yet.
-#endif

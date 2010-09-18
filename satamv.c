@@ -19,7 +19,6 @@
  */
 
 /* Datasheets are not public (yet?) */
-#if defined(__i386__) || defined(__x86_64__)
 
 #include <stdlib.h>
 #include "flash.h"
@@ -199,7 +198,3 @@ static uint8_t satamv_chip_readb(const struct flashctx *flash,
 {
 	return satamv_indirect_chip_readb(addr);
 }
-
-#else
-#error PCI port I/O access is not supported on this architecture yet.
-#endif
