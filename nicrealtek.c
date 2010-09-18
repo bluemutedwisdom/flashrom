@@ -18,8 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include <stdlib.h>
 #include "flash.h"
 #include "programmer.h"
@@ -92,7 +90,3 @@ uint8_t nicrealtek_chip_readb(const chipaddr addr)
 
 	return val;
 }
-
-#else
-#error PCI port I/O access is not supported on this architecture yet.
-#endif

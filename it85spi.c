@@ -24,8 +24,6 @@
  * Contains the ITE IT85* SPI specific routines
  */
 
-#if defined(__i386__) || defined(__x86_64__)
-
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -416,5 +414,3 @@ int it85_spi_write_256(struct flashchip *flash, uint8_t * buf, int start, int le
 {
 	return spi_write_chunked(flash, buf, start, len, 64);
 }
-
-#endif
