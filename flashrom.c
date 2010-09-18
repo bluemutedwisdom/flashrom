@@ -31,7 +31,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <getopt.h>
-#if HAVE_UTSNAME == 1
+#include "config.h"
+
+#if HAVE_SYS_UTSNAME_H == 1
 #include <sys/utsname.h>
 #endif
 #include "flash.h"
@@ -1607,7 +1609,7 @@ void list_programmers_linebreak(int startcol, int cols, int paren)
 
 void print_sysinfo(void)
 {
-#if HAVE_UTSNAME == 1
+#if HAVE_UNAME == 1
 	struct utsname osinfo;
 	uname(&osinfo);
 
