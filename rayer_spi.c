@@ -28,7 +28,6 @@
  * most OS parport drivers will perform many unnecessary accesses although
  * this driver just treats the parallel port as a GPIO set.
  */
-#if defined(__i386__) || defined(__x86_64__)
 
 #include <stdlib.h>
 #include <string.h>
@@ -177,7 +176,3 @@ int rayer_spi_init(void)
 
 	return 0;
 }
-
-#else
-#error PCI port I/O access is not supported on this architecture yet.
-#endif
