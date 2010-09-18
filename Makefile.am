@@ -5,12 +5,6 @@ man_MANS = flashrom.8
 # FIXME use "config.h" in the future
 DEFS += -DFLASHROM_VERSION=\"@VERSION@\"
 
-if HAVE_SYS_UTSNAME
-if HAVE_UNAME
-DEFS += -DHAVE_UTSNAME=1
-endif
-endif
-
 if HAVE_DMIDECODE
 DEFS += -DDMIDECODE_PATH=\"@DMIDECODE@\"
 else

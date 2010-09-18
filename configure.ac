@@ -249,9 +249,5 @@ AM_CONDITIONAL(HAVE_SERIAL, test "$serial" = "yes")
 AM_CONDITIONAL(HAVE_PCI, test "$pci" = "yes")
 AM_CONDITIONAL(HAVE_PRINT_WIKI, test "$print_wiki" = "yes")
 
-# FIXME remove in the future
-AM_CONDITIONAL(HAVE_SYS_UTSNAME, test "$ac_cv_header_sys_utsname_h" = "yes")
-AM_CONDITIONAL(HAVE_UNAME, test "$ac_cv_func_uname" = "yes")
-
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
