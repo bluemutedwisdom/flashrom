@@ -204,7 +204,7 @@ cpu_to_be(64)
     #define off64_t off_t
     #define lseek64 lseek
 #endif
-#if defined (__sun) && (defined(__i386) || defined(__amd64))
+#if defined (__sun)
   /* Note different order for outb */
   #define OUTB(x,y) outb(y, x)
   #define OUTW(x,y) outw(y, x)
@@ -323,22 +323,6 @@ int libpayload_wrmsr(int addr, msr_t msr);
 #define rdmsr libpayload_rdmsr
 #define wrmsr libpayload_wrmsr
 #endif
-
-#elif defined(__powerpc__) || defined(__powerpc64__) || defined(__ppc__) || defined(__ppc64__)
-
-/* PCI port I/O is not yet implemented on PowerPC. */
-
-#elif defined (__mips) || defined (__mips__) || defined (_mips) || defined (mips)
-
-/* PCI port I/O is not yet implemented on MIPS. */
-
-#elif defined(__arm__)
-
-/* Non memory mapped I/O is not supported on ARM. */
-
-#else
-
-#error Unknown architecture, please check if it supports PCI port IO.
 
 #endif
 #endif
