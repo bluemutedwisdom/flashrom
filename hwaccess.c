@@ -32,29 +32,39 @@
 #include "flash.h"
 
 #if defined(__i386__) || defined(__x86_64__)
-
-/* sync primitive is not needed because x86 uses uncached accesses
- * which have a strongly ordered memory model.
- */
-static inline void sync_primitive(void)
-{
-}
-
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__DragonFly__)
 int io_fd;
 #endif
+#endif
+
+static inline void sync_primitive(void)
+{
+/* sync primitive is needed only on PowerPC because
+ * x86 uses uncached accesses which have a strongly ordered memory model
+ * /dev/mem on MIPS uses uncached accesses in mode 2 which has a strongly ordered memory model.
+ */
+#if defined(__powerpc__) || defined(__powerpc64__) || defined(__ppc__) || defined(__ppc64__)
+	/* Prevent reordering and/or merging of reads/writes to hardware.
+	 * Such reordering and/or merging would break device accesses which
+	 * depend on the exact access order.
+	 */
+	asm("eieio" : : : "memory");
+#endif
+}
 
 void get_io_perms(void)
 {
+/* PCI port I/O is not yet implemented on PowerPC or MIPS. */
+#if defined(__i386__) || defined(__x86_64__) || defined(__amd64)
 #if defined(__DJGPP__) || defined(__LIBPAYLOAD__)
 	/* We have full permissions by default. */
 	return;
 #else
-#if defined (__sun) && (defined(__i386) || defined(__amd64))
+#if defined (__sun)
 	if (sysi86(SI86V86, V86SC_IOPL, PS_IOPL) != 0) {
 #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined (__DragonFly__)
 	if ((io_fd = open("/dev/io", O_RDWR)) < 0) {
-#else 
+#else
 	if (iopl(3) != 0) {
 #endif
 		msg_perr("ERROR: Could not get I/O privileges (%s).\n"
@@ -67,74 +77,18 @@ void get_io_perms(void)
 		exit(1);
 	}
 #endif
+#endif
 }
 
 void release_io_perms(void)
 {
+/* PCI port I/O is not yet implemented on PowerPC or MIPS. */
+#if defined(__i386__) || defined(__x86_64__) || defined(__amd64)
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__DragonFly__)
 	close(io_fd);
 #endif
-}
-
-#elif defined(__powerpc__) || defined(__powerpc64__) || defined(__ppc__) || defined(__ppc64__)
-
-static inline void sync_primitive(void)
-{
-	/* Prevent reordering and/or merging of reads/writes to hardware.
-	 * Such reordering and/or merging would break device accesses which
-	 * depend on the exact access order.
-	 */
-	asm("eieio" : : : "memory");
-}
-
-/* PCI port I/O is not yet implemented on PowerPC. */
-void get_io_perms(void)
-{
-}
-
-/* PCI port I/O is not yet implemented on PowerPC. */
-void release_io_perms(void)
-{
-}
-
-#elif defined (__mips) || defined (__mips__) || defined (_mips) || defined (mips)
-
-/* sync primitive is not needed because /dev/mem on MIPS uses uncached accesses
- * in mode 2 which has a strongly ordered memory model.
- */
-static inline void sync_primitive(void)
-{
-}
-
-/* PCI port I/O is not yet implemented on MIPS. */
-void get_io_perms(void)
-{
-}
-
-/* PCI port I/O is not yet implemented on MIPS. */
-void release_io_perms(void)
-{
-}
-
-#elif defined (__arm__)
-
-static inline void sync_primitive(void)
-{
-}
-
-void get_io_perms(void)
-{
-}
-
-void release_io_perms(void)
-{
-}
-
-#else
-
-#error Unknown architecture
-
 #endif
+}
 
 void mmio_writeb(uint8_t val, void *addr)
 {
