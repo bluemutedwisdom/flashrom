@@ -116,8 +116,6 @@ cpu_to_be(64)
 #if HAVE_LIBPCI == 1
 #if defined (__i386__) || defined (__x86_64__)
 
-#define __FLASHROM_HAVE_OUTB__ 1
-
 /* for iopl and outb under Solaris */
 #if defined (__sun) && (defined(__i386) || defined(__amd64))
 #include <strings.h>
