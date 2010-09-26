@@ -43,51 +43,6 @@
 #undef index
 #endif
 
-#if defined (__i386__) || defined (__x86_64__)
-
-/* All x86 is little-endian. */
-#define __FLASHROM_LITTLE_ENDIAN__ 1
-
-#elif defined (__mips) || defined (__mips__) || defined (_mips) || defined (mips)
-
-/* MIPS can be either endian. */
-#if defined (__MIPSEL) || defined (__MIPSEL__) || defined (_MIPSEL) || defined (MIPSEL)
-#define __FLASHROM_LITTLE_ENDIAN__ 1
-#elif defined (__MIPSEB) || defined (__MIPSEB__) || defined (_MIPSEB) || defined (MIPSEB)
-#define __FLASHROM_BIG_ENDIAN__ 1
-#endif
-
-#elif defined(__powerpc__) || defined(__powerpc64__) || defined(__ppc__) || defined(__ppc64__)
-
-/* PowerPC can be either endian. */
-#if defined (_BIG_ENDIAN) || defined (__BIG_ENDIAN__)
-#define __FLASHROM_BIG_ENDIAN__ 1
-/* Error checking in case some weird header has #defines for LE as well. */
-#if defined (_LITTLE_ENDIAN) || defined (__LITTLE_ENDIAN__)
-#error Conflicting endianness #define
-#endif
-#else
-#error Little-endian PowerPC #defines are unknown
-#endif
-
-#endif
-
-#if !defined (__FLASHROM_BIG_ENDIAN__) && !defined (__FLASHROM_LITTLE_ENDIAN__)
-/* Nonstandard libc-specific macros for determining endianness. */
-#if defined(__GLIBC__)
-#include <endian.h>
-#if BYTE_ORDER == LITTLE_ENDIAN
-#define __FLASHROM_LITTLE_ENDIAN__ 1
-#elif BYTE_ORDER == BIG_ENDIAN
-#define __FLASHROM_BIG_ENDIAN__ 1
-#endif
-#endif
-#endif
-
-#if !defined (__FLASHROM_BIG_ENDIAN__) && !defined (__FLASHROM_LITTLE_ENDIAN__)
-#error Unable to determine endianness. Please add support for your arch or libc.
-#endif
-
 #define ___constant_swab8(x) ((uint8_t) (				\
 	(((uint8_t)(x) & (uint8_t)0xffU))))
 
@@ -129,7 +84,7 @@ cpu_to_le(64)
 #define cpu_to_be32
 #define cpu_to_be64
 
-#elif defined (__FLASHROM_LITTLE_ENDIAN__)
+#else /* defined (__FLASHROM_BIG_ENDIAN__) */
 
 #define cpu_to_be(bits)							\
 static inline uint##bits##_t cpu_to_be##bits(uint##bits##_t val)	\
@@ -147,11 +102,7 @@ cpu_to_be(64)
 #define cpu_to_le32
 #define cpu_to_le64
 
-#else
-
-#error Could not determine endianness.
-
-#endif
+#endif /* defined (__FLASHROM_BIG_ENDIAN__) */
 
 #define be_to_cpu8 cpu_to_be8
 #define be_to_cpu16 cpu_to_be16
