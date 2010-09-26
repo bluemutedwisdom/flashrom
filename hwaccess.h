@@ -24,11 +24,9 @@
 #ifndef __HWACCESS_H__
 #define __HWACCESS_H__ 1
 
-#if defined (__i386__) || defined (__x86_64__)
-#if defined(__GLIBC__)
+#if defined (HAVE_SYS_IO_H)
 #include <sys/io.h>
-#endif
-#endif
+#endif /* defined (HAVE_SYS_IO_H) */
 
 #if NEED_PCI == 1
 /*
@@ -39,7 +37,47 @@
 #define index shadow_workaround_index
 #include <pci/pci.h>
 #undef index
-#endif
+
+#if defined (HAVE_STRINGS_H)
+#include <strings.h>
+#endif /* defined (HAVE_STRINGS_H) */
+
+#if defined (HAVE_STDINT_H)
+#include <stdint.h>
+#endif /* defined (HAVE_STDINT_H) */
+
+#if defined (HAVE_SYS_TYPES_H)
+#include <sys/types.h>
+#endif /* defined (HAVE_SYS_TYPES_H) */
+
+#if defined (HAVE_MACHINE_SYSARCH_H)
+#include <machine/sysarch.h>
+#endif /* defined (HAVE_MACHINE_SYSARCH_H) */
+
+#if defined (HAVE_MACHINE_CPUFUNC_H)
+#include <machine/cpufunc.h>
+#endif /* defined (HAVE_MACHINE_CPUFUNC_H) */
+
+/* for iopl and outb under Solaris */
+#if defined HAVE_ASM_SUNDDI_H
+#include <asm/sunddi.h>
+#endif /* defined HAVE_ASM_SUNDDI_H */
+#if defined HAVE_SYS_SYSI86_H
+#include <sys/sysi86.h>
+#endif /* defined HAVE_SYS_SYSI86_H */
+#if defined HAVE_SYS_PSW_H
+#include <sys/psw.h>
+#endif /* defined HAVE_SYS_PSW_H */
+
+#ifdef __DJGPP__
+#include <pc.h>
+#endif /* __DJGPP__ */
+
+#if defined HAVE_DIRECTIO_DARWINIO_H
+#include <DirectIO/darwinio.h>
+#endif /* defined HAVE_DIRECTIO_DARWINIO_H */
+
+#endif /* defined (HAVE_LIBPCI) */
 
 #define ___constant_swab8(x) ((uint8_t) (				\
 	(((uint8_t)(x) & (uint8_t)0xffU))))
@@ -112,17 +150,12 @@ cpu_to_be(64)
 #define le_to_cpu64 cpu_to_le64
 
 #if NEED_PCI == 1
+
+/* PCI port I/O is not yet implemented on PowerPC. */
+/* PCI port I/O is not yet implemented on MIPS. */
 #if defined (__i386__) || defined (__x86_64__)
 
 #define __FLASHROM_HAVE_OUTB__ 1
-
-/* for iopl and outb under Solaris */
-#if defined (__sun) && (defined(__i386) || defined(__amd64))
-#include <strings.h>
-#include <sys/sysi86.h>
-#include <sys/psw.h>
-#include <asm/sunddi.h>
-#endif
 
 #if (defined(__MACH__) && defined(__APPLE__))
 #define __DARWIN__
@@ -133,7 +166,6 @@ cpu_to_be(64)
  */
 
 #if defined(__FreeBSD__) || defined(__DragonFly__)
-  #include <machine/cpufunc.h>
   #define off64_t off_t
   #define lseek64 lseek
   #define OUTB(x, y) do { u_int outb_tmp = (y); outb(outb_tmp, (x)); } while (0)
@@ -161,8 +193,6 @@ cpu_to_be(64)
 
 #ifdef __DJGPP__
 
-#include <pc.h>
-
   #define OUTB(x,y) outportb(y, x)
   #define OUTW(x,y) outportw(y, x)
   #define OUTL(x,y) outportl(y, x)
@@ -189,8 +219,6 @@ cpu_to_be(64)
   #define off64_t off_t
   #define lseek64 lseek
   #if defined(__i386__) || defined(__x86_64__)
-    #include <sys/types.h>
-    #include <machine/sysarch.h>
 #if defined(__NetBSD__)
     #if defined(__i386__)
       #define iopl i386_iopl
@@ -247,7 +275,8 @@ static inline uint32_t inl(uint16_t port)
 typedef struct { uint32_t hi, lo; } msr_t;
 msr_t rdmsr(int addr);
 int wrmsr(int addr, msr_t msr);
-#endif
+#endif /* !defined(__DARWIN__) && !defined(__FreeBSD__) && !defined(__DragonFly__) */
+
 #if defined(__FreeBSD__) || defined(__DragonFly__)
 /* FreeBSD already has conflicting definitions for wrmsr/rdmsr. */
 #undef rdmsr
@@ -257,7 +286,8 @@ int wrmsr(int addr, msr_t msr);
 typedef struct { uint32_t hi, lo; } msr_t;
 msr_t freebsd_rdmsr(int addr);
 int freebsd_wrmsr(int addr, msr_t msr);
-#endif
+#endif /* defined(__FreeBSD__) || defined(__DragonFly__) */
+
 #if defined(__LIBPAYLOAD__)
 #include <arch/io.h>
 #include <arch/msr.h>
