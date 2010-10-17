@@ -31,13 +31,6 @@
 #endif
 #include "flash.h"
 
-#if !(	defined(__i386__) || \
-	defined(__x86_64__) || defined(__amd64) || \
-	defined (__mips) || defined (__mips__) || defined (_mips) || defined (mips) || \
-	defined(__powerpc__) || defined(__powerpc64__) || defined(__ppc__) || defined(__ppc64__))
-#error Unknown architecture
-#endif
-
 #if defined(__i386__) || defined(__x86_64__)
 #if defined(__FreeBSD__) || defined(__DragonFly__)
 int io_fd;
