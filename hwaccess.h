@@ -152,8 +152,10 @@ cpu_to_be(64)
 #define le_to_cpu64 cpu_to_le64
 
 #if HAVE_LIBPCI == 1
-#if defined (__i386__) || defined (__x86_64__)
 
+/* PCI port I/O is not yet implemented on PowerPC. */
+/* PCI port I/O is not yet implemented on MIPS. */
+#if defined (__i386__) || defined (__x86_64__)
 
 #if (defined(__MACH__) && defined(__APPLE__))
 #define __DARWIN__
@@ -273,7 +275,8 @@ static inline uint32_t inl(uint16_t port)
 typedef struct { uint32_t hi, lo; } msr_t;
 msr_t rdmsr(int addr);
 int wrmsr(int addr, msr_t msr);
-#endif
+#endif /* !defined(__DARWIN__) && !defined(__FreeBSD__) && !defined(__DragonFly__) */
+
 #if defined(__FreeBSD__) || defined(__DragonFly__)
 /* FreeBSD already has conflicting definitions for wrmsr/rdmsr. */
 #undef rdmsr
@@ -283,7 +286,8 @@ int wrmsr(int addr, msr_t msr);
 typedef struct { uint32_t hi, lo; } msr_t;
 msr_t freebsd_rdmsr(int addr);
 int freebsd_wrmsr(int addr, msr_t msr);
-#endif
+#endif /* defined(__FreeBSD__) || defined(__DragonFly__) */
+
 #if defined(__LIBPAYLOAD__)
 #include <arch/io.h>
 #include <arch/msr.h>
