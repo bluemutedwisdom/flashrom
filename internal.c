@@ -293,6 +293,8 @@ int internal_init(void)
 		 "Aborting.\n");
 	return 1;
 #endif
+#elif defined(__powerpc__) || defined(__ppc__)
+	return 0;
 #else
 	/* FIXME: Remove this unconditional abort once all PCI drivers are
 	 * converted to use little-endian accesses for memory BARs.
