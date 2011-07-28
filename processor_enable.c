@@ -24,19 +24,6 @@
 #include "flash.h"
 #include "programmer.h"
 
-#if defined(__i386__) || defined(__x86_64__) || defined(__ppc__) || defined(__powerpc__)
-
-int processor_flash_enable(void)
-{
-	/* On x86, flash access is not processor specific except on
-	 * AMD Elan SC520, AMD Geode and maybe other SoC-style CPUs.
-	 * FIXME: Move enable_flash_cs5536 and get_flashbase_sc520 here.
-	 */
-	return 0;
-}
-
-#else
-
 #if defined (__MIPSEL__) && defined (__linux)
 #include <stdio.h>
 #include <string.h>
@@ -89,9 +76,14 @@ int processor_flash_enable(void)
 		flashbase = 0x1fc00000;
 		return 0;
 	}
-#endif
+#elif defined(__i386__) || defined(__x86_64__) || defined(__ppc__) || defined(__powerpc__)
+	/* On x86, flash access is not processor specific except on
+	 * AMD Elan SC520, AMD Geode and maybe other SoC-style CPUs.
+	 * FIXME: Move enable_flash_cs5536 and get_flashbase_sc520 here.
+	 */
+	return 0;
+#else
 	/* Not implemented yet. Oh well. */
 	return 1;
-}
-
 #endif
+}
